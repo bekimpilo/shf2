@@ -8,9 +8,9 @@ Original file is located at
 """
 import pandas as pd
 import streamlit as st
-import polyfuzz as pf
+from polyfuzz import PolyFuzz
 
-st.set_page_config(page_title="Medicine utilisation", page_icon=":guardsman:", layout="wide")
+st.set_page_config(page_title="Facility matching", page_icon=":guardsman:", layout="wide")
 st.image("chailogo.png", width=200)
 st.title("Facility name matching")
 
@@ -28,7 +28,7 @@ if file_1:
 
         if standard_names_file:
             standard_names_df = pd.read_csv(standard_names_file, header=None)
-            fuzzer = pf.PolyFuzz('TF-IDF')
+            fuzzer = PolyFuzz('TF-IDF')
             fuzzer.fit(standard_names_df[0])
             df_appended = pd.concat([df1, df2], axis=0)
             df_appended["standard_name"] = df_appended["description"].apply(lambda x: fuzzer.get_best(x))
