@@ -2,6 +2,16 @@ import pandas as pd
 import streamlit as st
 import snscrape.modules.twitter as sntwitter
 
+def analyze_sentiment(text):
+    model = tweetnlp.load_model('sentiment')
+    result = model.sentiment(text)
+    if result == "positive":
+        return 1
+    elif result == "negative":
+        return -1
+    else:
+        return 0
+
 # Define a function to get the tweets
 def get_tweets(maxTweets):
     tweets_list = []
@@ -30,7 +40,3 @@ def main():
     if st.button("Export to CSV"):
         df.to_csv('masscountry.csv', index=False)
         st.success("Data exported to masscountry.csv")
-
-if __name__ == '__main__':
-    main()
-
